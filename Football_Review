@@ -1,0 +1,9 @@
+#import results files
+
+import pandas as pd
+
+EPL_results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\EPL_Results.xlsx', index_col=0) 
+Bundesliga_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\Bundesliga_Results.xlsx', index_col=0) 
+SerieA_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\SerieA_Results.xlsx', index_col=0) 
+LaLiga_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\LaLiga_Results.xlsx', index_col=0) 
+Ligue1_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\Ligue1_Results.xlsx', index_col=0) 
