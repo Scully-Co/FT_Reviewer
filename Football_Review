@@ -7,3 +7,92 @@ Bundesliga_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\
 SerieA_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\SerieA_Results.xlsx', index_col=0) 
 LaLiga_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\LaLiga_Results.xlsx', index_col=0) 
 Ligue1_Results = pd.read_excel('C:\\Users\\conor\\Documents\\Python Scripts\\Data\\Ligue1_Results.xlsx', index_col=0) 
+
+#table creation
+EPL_table = {'Team_Name': ['Brentford', 'Manchester Utd', 'Leicester City', 'Burnley', 'Watford',
+                             'Chelsea', 'Everton', 'Norwich City', 'Newcastle Utd', 'Tottenham',
+                             'Liverpool', 'Aston Villa', 'Manchester City', 'Crystal Palace',
+                             'Leeds United', 'Brighton', 'Southampton', 'Wolves', 'Arsenal', 'West Ham'],
+             
+             'Games_Played': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Points_Total': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Wins': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Draws': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Losses': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Goals_For': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             
+             'Goals_Against': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+             
+            }
+
+EPL_table = pd.DataFrame(EPL_table)
+
+EPL_table
+
+#review results & add to table
+
+review_team = EPL_results.dropna()
+
+for index, row in review_team.iterrows():
+        
+        home_team = row['Home']
+        away_team = row['Away']
+        
+        myresult = str(row['Score']).split()
+        myresult = myresult[0]
+             
+        home_score = int(myresult[0])
+        away_score = int(myresult[2])
+        
+        if home_score > away_score:
+
+            cond = EPL_table['Team_Name'] == home_team
+            EPL_table.loc[cond,'Points_Total'] = EPL_table.loc[cond,'Points_Total'] + 3
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + home_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + away_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Wins'] = EPL_table.loc[cond,'Wins'] + 1
+
+            cond = EPL_table['Team_Name'] == away_team
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + away_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + home_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Losses'] = EPL_table.loc[cond,'Losses'] + 1
+        
+        elif home_score < away_score:
+        
+            cond = EPL_table['Team_Name'] == away_team
+            EPL_table.loc[cond,'Points_Total'] = EPL_table.loc[cond,'Points_Total'] + 3
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + away_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + home_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Wins'] = EPL_table.loc[cond,'Wins'] + 1
+
+            cond = EPL_table['Team_Name'] == home_team
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + home_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + away_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Losses'] = EPL_table.loc[cond,'Losses'] + 1
+
+        else:
+            cond = EPL_table['Team_Name'] == away_team
+            EPL_table.loc[cond,'Points_Total'] = EPL_table.loc[cond,'Points_Total'] + 1
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + away_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + home_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Draws'] = EPL_table.loc[cond,'Draws'] + 1
+
+            cond = EPL_table['Team_Name'] == home_team
+            EPL_table.loc[cond,'Points_Total'] = EPL_table.loc[cond,'Points_Total'] + 1
+            EPL_table.loc[cond,'Goals_For'] = EPL_table.loc[cond,'Goals_For'] + home_score
+            EPL_table.loc[cond,'Goals_Against'] = EPL_table.loc[cond,'Goals_Against'] + away_score
+            EPL_table.loc[cond,'Games_Played'] = EPL_table.loc[cond,'Games_Played'] + 1
+            EPL_table.loc[cond,'Draws'] = EPL_table.loc[cond,'Draws'] + 1
+     
+#output results
+EPL_table.sort_values(by='Points_Total', ascending=False, ignore_index=True)
